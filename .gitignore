@@ -1,0 +1,14 @@
+# OS
+.DS_Store
+
+# Editor
+.vscode/
+
+# Logs
+*.log
+
+# Environment / secrets
+.env
+.env.*
+wp-config.php
+

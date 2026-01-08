@@ -1,0 +1,645 @@
+/* General Topic Tree Layout */
+.topic-tree {
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+    overflow: hidden; /* Prevent overall horizontal scroll */
+    height: calc(100vh - 32px - 30px); /* Adjusted for admin bar (32px) and footer (30px) */
+    margin: 0; /* Override any inherited margins */
+    padding: 0; /* Ensure no padding */
+}
+
+/* Left Panel (Sidebar + Group Index) */
+.left-panel {
+    width: 300px;
+    flex-shrink: 0;
+    overflow-y: auto; /* Vertical scroll only if needed */
+    overflow-x: hidden; /* Prevent horizontal scroll */
+    transition: width 0.4s ease; /* Changed to width transition */
+    box-sizing: border-box; /* Include padding in width */
+    margin-top: 12px;
+    position: relative; /* Ensure proper stacking context */
+    z-index: 10; /* Ensure it’s above the footer */
+}
+
+.left-panel.collapsed {
+    width: 0; /* Collapse to zero width */
+    overflow: hidden; /* Hide content when collapsed */
+}
+
+/* Sidebar Styles */
+.topic-tree .sidebar {
+    width: 100%; /* Full width within left-panel */
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    padding: 15px;
+    position: relative;
+    z-index: 10;
+    margin-bottom: 15px; /* Space before group-index-container */
+    box-sizing: border-box; /* Include padding in width */
+}
+
+/* Sidebar Toggle Button */
+.sidebar-toggle-btn {
+    position: fixed; /* Fixed to stay visible */
+    left: 170px; /* 160px (WP admin sidebar expanded) + 10px offset */
+    top: 40px; /* Below WP admin bar (32px) + margin */
+    background: #f6f7f7;
+    border: 1px solid #dcdcde;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 16px;
+    z-index: 11;
+    display: none;
+}
+
+/* Adjust toggle button position when WP admin sidebar is collapsed */
+body.folded .sidebar-toggle-btn {
+    left: 36px; /* 36px (WP admin sidebar collapsed), no extra offset */
+}
+
+/* Sidebar Close Button */
+.sidebar-close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #666;
+}
+
+/* Group Index Container */
+.group-index-container {
+    width: 100%; /* Full width within left-panel */
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    padding: 15px;
+    box-sizing: border-box; /* Include padding in width */
+    max-height: 300px; /* Limit the height to make it scrollable */
+    overflow-y: auto; /* Enable vertical scrolling if content overflows */
+}
+
+.group-index-container h2 {
+    font-weight: 600;
+    font-size: 18px;
+    margin: 0 0 15px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+.group-index-container ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    max-width: 100%; /* Ensure the list doesn't exceed container width */
+}
+
+.group-index-container li {
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    font-size: 13px;
+    border-bottom: 1px solid #f0f0f0;
+    max-width: 100%; /* Ensure list items don't exceed container width */
+    word-break: break-all; /* Break long words to prevent overflow */
+}
+
+.group-index-container li:last-child {
+    border-bottom: none;
+}
+
+.group-index-container a {
+    color: #2271b1;
+    text-decoration: none;
+    word-wrap: break-word; /* Prevent text overflow */
+}
+
+.group-index-container a:hover {
+    text-decoration: underline;
+}
+
+/* Main Content */
+.topic-tree .main-content {
+    padding-left: 15px;
+    flex-grow: 1; /* Fill remaining space */
+    flex-shrink: 1;
+    width: auto; /* Let flex handle the width */
+    transition: margin-left 0.4s ease;
+    box-sizing: border-box;
+    overflow-y: auto; /* Vertical scroll only if needed */
+    height: calc(100vh - 32px - 30px); /* Match topic-tree height, adjusted for footer */
+    margin: 0; /* Ensure no margins */
+    position: relative; /* Ensure proper stacking context */
+    z-index: 10; /* Ensure it’s above the footer */
+}
+
+/* When left-panel is collapsed */
+.topic-tree .main-content.full-width {
+    margin-left: 40px; /* Reduced from 60px to 40px for tighter spacing */
+}
+
+/* Ensure WordPress admin consistency */
+.wrap .topic-tree .main-content {
+    flex-grow: 1;
+    flex-shrink: 1;
+    width: auto;
+    overflow-y: auto !important;
+    height: calc(100vh - 32px - 30px) !important; /* Match topic-tree height */
+    margin: 0;
+}
+
+.wrap .topic-tree .main-content.full-width {
+    margin-left: 40px; /* Match the reduced value */
+}
+
+/* Override WordPress wrap margins and paddings */
+.wrap {
+    margin: 0 !important; /* Remove default WP margins */
+    padding: 0 !important; /* Remove default WP padding */
+    overflow: hidden !important; /* Match topic-tree */
+    height: auto !important;
+}
+
+/* Ensure space for the footer */
+#wpbody-content {
+    padding-bottom: 30px !important; /* Ensure space for the footer */
+}
+
+/* Style the WordPress footer to prevent overlap */
+#wpfooter {
+    position: relative !important; /* Override any absolute positioning */
+    bottom: auto !important; /* Remove bottom positioning */
+    width: 100%;
+    z-index: 1; /* Ensure it’s below the topic-tree */
+    margin-top: 10px; /* Add some space above the footer */
+    padding: 10px 20px;
+    box-sizing: border-box;
+}
+
+#wpfooter p {
+    margin: 0;
+    padding: 0;
+}
+
+/* Headings */
+.topic-tree h1 {
+    font-weight: 700;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.topic-tree h2 {
+    font-weight: 600;
+    font-size: 18px;
+    margin: 5px 0 15px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+.topic-tree h3 {
+    font-weight: 600;
+    font-size: 16px;
+    margin: 20px 0 10px;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 5px;
+}
+
+/* Sections */
+.topic-tree .section {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+    overflow: visible !important;
+    height: auto !important;
+}
+
+/* Lists */
+.topic-tree ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+/* Styling for flat list content <li> (updated to dark rounded card) */
+.topic-tree li:not(.group-content li) {
+    color: #3c434a;
+    padding: 0px 0px 8px;
+    margin: 0px 0px 8px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    border-bottom: none;
+}
+
+.topic-tree li:not(.group-content li):last-child {
+    margin-bottom: 0;
+}
+
+/* Styling for grouped content <li> (updated to dark rounded card) */
+.topic-tree .group-content li {
+    background-color: #c0c0c0;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    overflow: visible !important;
+    height: auto !important;
+}
+
+/* Sidebar list items (restored thin horizontal bars) */
+.topic-tree .sidebar ul li {
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    font-size: 13px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.topic-tree .sidebar ul li:last-child {
+    border-bottom: none;
+}
+
+/* Description */
+.topic-tree .description {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+/* Token Count Badge */
+.token-count {
+    display: inline-block;
+    padding: 3px 8px;
+    background: #f0f6ff;
+    color: #2271b1;
+    border-radius: 4px;
+    font-size: 12px;
+    margin-top: 8px;
+    margin-bottom: 5px;
+    font-weight: 500;
+    line-height: 1;
+}
+
+/* Specific styling for token count in grouped content */
+.group-content .token-count {
+    display: inline-block;
+    margin-top: 8px;
+    margin-bottom: 5px;
+}
+
+/* Links */
+.topic-tree a {
+    color: #2271b1;
+    text-decoration: none;
+}
+
+/* Buttons (Consolidated) */
+.topic-tree .analyze-btn,
+.topic-tree .edit-btn,
+.topic-tree .toggle-group-btn,
+.topic-tree .group-analyze-btn {
+    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-left: 5px;
+    cursor: pointer;
+    background: #f6f7f7;
+    border: 1px solid #dcdcde;
+    display: inline-block;
+    text-decoration: none;
+    font-family: 'Inter', sans-serif;
+}
+
+.topic-tree .analyze-btn,
+.topic-tree .group-analyze-btn {
+    color: #0073aa;
+}
+
+.topic-tree .edit-btn {
+    color: #3c434a;
+}
+
+.topic-tree .toggle-group-btn {
+    color: #0073aa;
+}
+
+/* SEO Suggestions (Sidebar) */
+.sidebar-container {
+    margin-top: 20px;
+}
+
+.seo-suggestions-sidebar {
+    background: #f8f9fa;
+    border-radius: 6px;
+    padding: 15px;
+    font-size: 13px;
+}
+
+.seo-suggestions-list {
+    list-style-type: disc;
+    margin: 0 0 0 20px;
+    padding: 0;
+}
+
+.seo-suggestions-list li {
+    margin-bottom: 10px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+/* Inline SEO Suggestions */
+.seo-suggestions-inline {
+    display: none;
+    margin-top: 10px;
+    padding: 10px;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 13px;
+    line-height: 1.5;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    overflow: visible !important;
+    height: auto !important;
+}
+
+.seo-suggestions-inline.visible {
+    display: block !important;
+    opacity: 1 !important;
+}
+
+.seo-suggestions-inline ul {
+    list-style-type: disc;
+    margin: 5px 0 0 20px;
+    padding: 0;
+}
+
+.seo-suggestions-inline li {
+    margin-bottom: 5px;
+}
+
+.seo-suggestions-inline li div {
+    display: block;
+    line-height: 1.5;
+}
+
+/* Responsive Adjustments */
+@media screen and (max-width: 782px) {
+    .topic-tree {
+        flex-direction: column;
+    }
+    
+    .left-panel {
+        width: 100%;
+        max-width: 300px;
+        margin-left: 0; /* No offset on mobile */
+    }
+
+    .topic-tree .sidebar {
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .topic-tree .main-content,
+    .topic-tree .main-content.full-width {
+        width: 100%;
+        padding-left: 0;
+        margin-left: 0;
+    }
+
+    .sidebar-toggle-btn {
+        position: relative;
+        left: 0;
+        top: 0;
+        margin: 10px 0;
+    }
+
+    body.folded .left-panel {
+        margin-left: 0; /* No offset on mobile */
+    }
+
+    body.folded .sidebar-toggle-btn {
+        left: 10px; /* Reset for mobile */
+    }
+}
+
+/* Grouped Content */
+.grouped-content,
+.group-card {
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: visible !important;
+    height: auto !important;
+    min-height: 100px;
+}
+
+.group-header h3 {
+    margin: 0;
+    font-size: 1.2em;
+    display: inline;
+}
+
+.toggle-btn {
+    background: none;
+    border: none;
+    font-size: 1em;
+    cursor: pointer;
+    padding: 0 5px;
+    vertical-align: middle;
+}
+
+/* Updated Group Content Styles for Dynamic Height */
+.group-content {
+    margin-top: 10px;
+    padding-left: 10px;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.group-content.visible {
+    display: block !important;
+    opacity: 1 !important;
+    height: auto !important;
+    overflow: visible !important;
+}
+
+/* Updated Group Analysis Styles for Dynamic Height */
+.group-analysis {
+    margin: 10px 0 15px 19px;
+    padding: 5px 16px;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    width: calc(100% - 20px);
+    box-sizing: border-box;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.group-analysis.visible {
+    display: block !important;
+    opacity: 1 !important;
+    height: auto !important;
+    overflow: visible !important;
+}
+
+.group-card ul li div:nth-child(2),
+.group-analysis p {
+    text-align: justify;
+}
+
+/* Keyword Analysis Styles */
+.keyword-analysis-wrap {
+    margin-top: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    padding: 20px;
+}
+
+.keyword-item {
+    margin-bottom: 20px;
+}
+
+.keyword-item h3 {
+    font-weight: 600;
+    font-size: 16px;
+    margin: 0 0 10px;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 5px;
+}
+
+.keyword-item table {
+    width: 100%;
+    border-collapse: separate;
+    font-size: 13px;
+    background: #fff;
+    border: 4px solid #e0e0e0;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.keyword-item th,
+.keyword-item td {
+    padding: 10px;
+    text-align: left;
+}
+
+.keyword-item th {
+    background: #f9f9f9;
+    font-weight: 600;
+    border-bottom: 1px solid #ddd;
+}
+
+.keyword-item td {
+    border-bottom: 1px solid #eee;
+}
+
+.keyword-item tr:last-child td {
+    border-bottom: none;
+}
+
+.keyword-note {
+    margin-top: 10px;
+    font-size: 13px;
+    font-style: italic;
+    color: #d63638;
+}
+
+/* Pagination */
+.pagination {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.pagination-link {
+    display: inline-block;
+    padding: 5px 10px;
+    background: #f6f7f7;
+    border: 1px solid #dcdcde;
+    border-radius: 4px;
+    margin: 0 5px;
+}
+
+.pagination-info {
+    display: inline-block;
+    margin: 0 10px;
+}
+
+/* Override WordPress admin wrapper constraints */
+.wrap {
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    height: auto !important;
+}
+
+.keyword-analysis-close-btn {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    font-size: 24px;
+    color: #666;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    line-height: 1;
+}
+
+.keyword-analysis-close-btn:hover {
+    color: #d63638;
+}
+
+.stale-mark {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: #dc143c; /* Reddish-crimson */
+    color: white;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.stale-tooltip {
+    visibility: hidden;
+    background-color: #333;
+    color: white;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px 10px;
+    position: absolute;
+    top: 25px;
+    right: 0;
+    z-index: 1;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.stale-mark:hover .stale-tooltip {
+    visibility: visible;
+}
+
+div.section ul:not(.group-content) > li {
+    border-bottom: 2px solid #ccc; /* Thick horizontal bar */
+    border-right: 2px solid #ccc;
+    margin-bottom: 15px; /* Add space below the bar */
+    padding-bottom: 15px; /* Add space above the bar */
+}
+
+/* Highlight Effect for Group Jump */
+.highlight {
+    background-color: #fff3cd;
+    transition: background-color 0.5s ease;
+}
